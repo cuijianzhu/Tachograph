@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QtQuick2ApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/Tachograph/viewfinder.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qml/Tachograph/main.qml"));
     viewer.showExpanded();
 
     return app.exec();

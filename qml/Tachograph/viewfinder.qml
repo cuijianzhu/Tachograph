@@ -1,11 +1,15 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 
-VideoOutput {
-    source: camera
+Item {
+    id: viewfinder
 
-    Camera {
-        id: camera
+    VideoOutput {
+        source: camera
+
+        Camera {
+            id: camera
+        }
     }
 }
 
