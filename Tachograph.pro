@@ -19,4 +19,5 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += \
+    qml/Tachograph/Viewfinder.qml \
     qml/Tachograph/Viewfinder.qml
