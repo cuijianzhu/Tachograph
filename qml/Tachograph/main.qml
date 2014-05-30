@@ -1,11 +1,8 @@
 import QtQuick 2.0
 
 Rectangle {
-    width: 960
-    height: 480
-
     Viewfinder{
-
+        anchors.fill: parent
     }
 
     MouseArea {

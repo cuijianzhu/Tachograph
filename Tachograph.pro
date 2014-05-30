@@ -3,7 +3,7 @@ folder_01.source = qml/Tachograph
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
-QT += multimedia
+QT += quick qml multimedia
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -18,6 +18,7 @@ SOURCES += main.cpp
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
-OTHER_FILES += \
-    qml/Tachograph/Viewfinder.qml \
-    qml/Tachograph/Viewfinder.qml
+OTHER_FILES += qml/Tachograph/main.qml \
+               qml/Tachograph/Viewfinder.qml
+
+RESOURCES +=
