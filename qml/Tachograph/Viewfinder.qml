@@ -8,5 +8,31 @@ VideoOutput {
 
     Camera {
         id: camera
+
+        //imageProcessing.whiteBalanceMode: CameraImageProcessing.whiteBaslanceFlash
+
+        imageCapture {
+            onImageCaptured: {
+                //Show the preview in a image
+                photoPreview.source = preview
+            }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            camera.imageCapture.capture();
+        }
+        onDoubleClicked: {
+            Qt.quit();
+        }
+    }
+
+    Image {
+        id: photoPreview
+
+        width: 480
+        height: 640
     }
 }
