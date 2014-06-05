@@ -13,11 +13,65 @@ Rectangle {
     }
     */
 
-    VideoOutput {
-        fillMode: VideoOutput.PreserveAspectCrop
-        anchors.fill: parent
-        source: camera
-    }
+    states: [
+        State {
+            name: ""
+            PropertyChanges {
+                target:photoPreview;
+                visible: false
+            }
+            PropertyChanges {
+                target: stillImageCaptureButton;
+                text: "stillImageCapture"
+            }
+        },
+        State {
+            name: "stillImageCapture"
+            PropertyChanges {
+                target: photoPreview;
+                visible: true
+            }
+            PropertyChanges {
+                target: stillImageCaptureButton;
+                text: "Cancel"
+            }
+            PropertyChanges {
+                target: location
+                color: "red"
+                text: qsTr("Location:") + camera.imageCapture.capturedImagePath
+                opacity: 1
+            }
+            PropertyChanges {
+                target: videoCaptureButton
+                visible: false
+            }
+        },
+        State {
+            name: "videoCapture"
+            PropertyChanges {
+                target: videoCaptureButton
+                text: "stop"
+            }
+            PropertyChanges {
+                target: stillImageCaptureButton
+                visible:false
+            }
+            PropertyChanges {
+                target: location
+                color: "red"
+                text: qsTr("Location") + camera.videoRecorder.actualLocation
+                opacity: 1
+            }
+            /*
+            StateChangeScript {
+                script: {
+                    camera.captureMode = Camera.CaptureVideo;
+                    camera.start();
+                }
+            }
+            */
+        }
+    ]
 
     Camera {
         id: camera
@@ -33,6 +87,18 @@ Rectangle {
                 photoPreview.source = preview
             }
         }
+
+        videoRecorder {
+            mediaContainer: "mp4"
+            resolution: "640x480"
+            frameRate: 15
+        }
+    }
+
+    VideoOutput {
+        fillMode: VideoOutput.PreserveAspectCrop
+        anchors.fill: parent
+        source: camera
     }
 
     Image {
@@ -42,62 +108,56 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    states: [
-        State {
-            name: ""
-            PropertyChanges {
-                target:photoPreview;
-                visible: false
-            }
-            PropertyChanges {
-                target: captureButton;
-                text: "Capture"
-            }
-        },
-        State {
-            name: "stillImageCapture"
-            PropertyChanges {
-                target: photoPreview;
-                visible: true
-            }
-            PropertyChanges {
-                target: captureButton;
-                text: "Cancel"
-            }
-
-            PropertyChanges {
-                target: text1
-                x: 67
-                y: 77
-                width: 314
-                height: 34
-                color: "red"
-                text: qsTr("Location:") + camera.imageCapture.capturedImagePath
-                opacity: 1
-            }
-        }
-
-    ]
-
     Button {
-        id: captureButton
+        id: stillImageCaptureButton
         width: 60
         height: 30
         anchors.top: parent.top
         anchors.left: parent.left
 
-        text: "Capture"
+        text: "stillImageCapture"
         anchors.leftMargin: 67
         anchors.topMargin: 15
 
         onClicked: {
-           if (text == "Capture") {
+           if (text == "stillImageCapture") {
                camera.imageCapture.capture();
+               //camera.captureMode = Camera.CaptureStillImage
+               //camera.start();
                rectangle.state = "stillImageCapture"
            }
            else {
                rectangle.state = ""
            }
+        }
+    }
+
+    Text {
+        id: location
+        x: 84
+        y: 77
+        text: qsTr("text1")
+        font.pixelSize: 12
+        opacity: 0
+    }
+
+    Button {
+        id: videoCaptureButton
+        x: 186
+        y: 17
+        text: qsTr("videoCapture")
+        activeFocusOnPress: false
+        checkable: false
+        enabled: true
+        onClicked: {
+            if (text == "videoCapture") {
+                camera.videoRecorder.record();
+                rectangle.state = "videoCapture"
+            } else if(text == "stop") {
+                camera.videoRecorder.stop();
+                rectangle.state = "";
+            }
+
         }
     }
 
@@ -113,15 +173,6 @@ Rectangle {
         onClicked: {
             Qt.quit();
         }
-    }
-
-    Text {
-        id: text1
-        x: 84
-        y: 77
-        text: qsTr("text1")
-        font.pixelSize: 12
-        opacity: 0
     }
 
 /*
