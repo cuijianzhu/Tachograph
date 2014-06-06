@@ -24,6 +24,12 @@ Rectangle {
                 target: stillImageCaptureButton;
                 text: "stillImageCapture"
             }
+            StateChangeScript {
+                script: {
+                    camera.captureMode = Camera.CaptureStillImage
+                    camera.start()
+                }
+            }
         },
         State {
             name: "stillImageCapture"
@@ -62,20 +68,19 @@ Rectangle {
                 text: qsTr("Location") + camera.videoRecorder.actualLocation
                 opacity: 1
             }
-            /*
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureVideo;
                     camera.start();
                 }
             }
-            */
         }
     ]
 
     Camera {
         id: camera
 
+        captureMode: Camera.CaptureStillImage
         imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceAuto
         exposure {
                 exposureCompensation: -1.0
@@ -121,14 +126,30 @@ Rectangle {
 
         onClicked: {
            if (text == "stillImageCapture") {
-               camera.imageCapture.capture();
-               //camera.captureMode = Camera.CaptureStillImage
-               //camera.start();
                rectangle.state = "stillImageCapture"
+               camera.imageCapture.capture();
            }
            else {
                rectangle.state = ""
            }
+        }
+    }
+
+    Button {
+        id: videoCaptureButton
+        x: 186
+        y: 17
+        text: qsTr("videoCapture")
+        onClicked: {
+            if (text == "videoCapture") {
+                rectangle.state = "videoCapture"
+                camera.videoRecorder.record();
+            } else if(text == "stop") {
+                camera.videoRecorder.stop();
+                camera.stop();
+                rectangle.state = "";
+            }
+
         }
     }
 
@@ -139,26 +160,6 @@ Rectangle {
         text: qsTr("text1")
         font.pixelSize: 12
         opacity: 0
-    }
-
-    Button {
-        id: videoCaptureButton
-        x: 186
-        y: 17
-        text: qsTr("videoCapture")
-        activeFocusOnPress: false
-        checkable: false
-        enabled: true
-        onClicked: {
-            if (text == "videoCapture") {
-                camera.videoRecorder.record();
-                rectangle.state = "videoCapture"
-            } else if(text == "stop") {
-                camera.videoRecorder.stop();
-                rectangle.state = "";
-            }
-
-        }
     }
 
     Button {
