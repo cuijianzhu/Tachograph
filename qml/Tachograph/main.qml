@@ -1,17 +1,12 @@
 import QtQuick 2.2
 import QtMultimedia 5.0
 import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 
 Rectangle {
     id: rectangle
     width: 480
     height: 640
-
-    /*
-    Viewfinder{
-        anchors.fill: parent
-    }
-    */
 
     states: [
         State {
@@ -22,7 +17,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: stillImageCaptureButton;
-                text: "stillImageCapture"
+                text: "stillImage"
             }
             StateChangeScript {
                 script: {
@@ -113,76 +108,63 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    Button {
-        id: stillImageCaptureButton
-        width: 60
-        height: 30
-        anchors.top: parent.top
-        anchors.left: parent.left
+    GridLayout {
+        id: gridlayout
+        columns: 3
+        flow: GridLayout.LeftToRight
+        Layout.fillWidth: true
 
-        text: "stillImageCapture"
-        anchors.leftMargin: 67
-        anchors.topMargin: 15
-
-        onClicked: {
-           if (text == "stillImageCapture") {
-               rectangle.state = "stillImageCapture"
-               camera.imageCapture.capture();
-           }
-           else {
-               rectangle.state = ""
+        Button {
+            id: stillImageCaptureButton
+            width: 60
+            height: 30
+            anchors.top: parent.top
+            anchors.left: parent.left
+            text: qsTr("stillImage")
+            opacity: 0.5
+            onClicked: {
+                if (text == qsTr("stillImage")) {
+                    rectangle.state = "stillImageCapture"
+                    camera.imageCapture.capture();
+                }
+                else {
+                    rectangle.state = ""
+                }
            }
         }
-    }
 
-    Button {
-        id: videoCaptureButton
-        x: 186
-        y: 17
-        text: qsTr("videoCapture")
-        onClicked: {
-            if (text == "videoCapture") {
-                rectangle.state = "videoCapture"
-                camera.videoRecorder.record();
-            } else if(text == "stop") {
-                camera.videoRecorder.stop();
-                camera.stop();
-                rectangle.state = "";
+        Button {
+            id: videoCaptureButton
+            text: qsTr("videoCapture")
+            onClicked: {
+                if (text == "videoCapture") {
+                    rectangle.state = "videoCapture"
+                    camera.videoRecorder.record();
+                } else if(text == "stop") {
+                    camera.videoRecorder.stop();
+                    camera.stop();
+                    rectangle.state = "";
+                }
             }
+        }
 
+        Button {
+            id: quitButton
+
+            text: "Quit"
+            onClicked: {
+                Qt.quit();
+            }
         }
     }
 
     Text {
         id: location
-        x: 84
-        y: 77
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
         text: qsTr("text1")
         font.pixelSize: 12
+        color: "red"
         opacity: 0
     }
-
-    Button {
-        id: quitButton
-        x: 321
-        y: 15
-        width: 60
-        height: 30
-
-        text: "Quit"
-
-        onClicked: {
-            Qt.quit();
-        }
-    }
-
-/*
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            Qt.quit();
-        }
-    }
-*/
-
 }
