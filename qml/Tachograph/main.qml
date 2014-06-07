@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: rectangle
-    width: 480
+    width: 640
     height: 640
 
     states: [
@@ -39,12 +39,20 @@ Rectangle {
             PropertyChanges {
                 target: location
                 color: "red"
-                text: qsTr("Location:") + camera.imageCapture.capturedImagePath
-                opacity: 1
+                text: camera.imageCapture.capturedImagePath
+                visible: true
             }
             PropertyChanges {
                 target: videoCaptureButton
                 visible: false
+            }
+            PropertyChanges {
+                target: information
+                text: qsTr("Still Image Capturing")
+            }
+            PropertyChanges {
+                target: animateInformation
+                running: true
             }
         },
         State {
@@ -60,8 +68,16 @@ Rectangle {
             PropertyChanges {
                 target: location
                 color: "red"
-                text: qsTr("Location") + camera.videoRecorder.actualLocation
-                opacity: 1
+                text: camera.videoRecorder.actualLocation
+                visible: true
+            }
+            PropertyChanges {
+                target: information
+                text: qsTr("Video Capturing")
+            }
+            PropertyChanges {
+                target: animateInformation
+                running: true
             }
             StateChangeScript {
                 script: {
@@ -108,18 +124,18 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    GridLayout {
-        id: gridlayout
-        columns: 3
-        flow: GridLayout.LeftToRight
-        Layout.fillWidth: true
+    ColumnLayout{
+        id: layout
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: parent.height / 4
+        Layout.fillHeight: true
 
         Button {
             id: stillImageCaptureButton
             width: 60
             height: 30
-            anchors.top: parent.top
-            anchors.left: parent.left
+            anchors.topMargin: 5
+            anchors.leftMargin: 5
             text: qsTr("stillImage")
             opacity: 0.5
             onClicked: {
@@ -159,12 +175,46 @@ Rectangle {
     }
 
     Text {
+        id: information
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        opacity: 0
+    }
+
+    SequentialAnimation {
+        id: animateInformation
+        running: false
+
+        NumberAnimation { target: information; property: "opacity"; duration: 800;
+            easing.type: Easing.InOutQuad; from: 0; to: 1
+        }
+        NumberAnimation { target: information; property: "opacity"; duration: 800;
+            easing.type: Easing.InOutQuad; from: 1; to: 0 }
+    }
+
+    Text {
         id: location
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        text: qsTr("text1")
         font.pixelSize: 12
         color: "red"
-        opacity: 0
+        visible: false
+    }
+
+    Behavior on rotation {
+        NumberAnimation {
+            duration: 600
+            easing.type: Easing.OutCurve
+        }
+    }
+
+    Button {
+        id: rotate
+        anchors.bottom: rectangle.bottom
+        anchors.left: rectangle.left
+        text: qsTr("rotate 90")
+        onClicked: {
+            rectangle.rotation = rectangle.rotation + 90
+        }
     }
 }
