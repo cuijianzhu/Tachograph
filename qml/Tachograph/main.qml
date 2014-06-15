@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: rectangle
-    width: 640
-    height: 640
+    //width: 640
+    //height: 640
 
     states: [
         State {
@@ -85,7 +85,20 @@ Rectangle {
                     camera.start();
                 }
             }
+        },
+        State {
+            name: "videoPreview"
+            StateChangeScript {
+                script: {
+                   player.play();
+                }
+            }
+            PropertyChanges {
+                target: videoOutput
+                source: player
+            }
         }
+
     ]
 
     Camera {
@@ -112,6 +125,7 @@ Rectangle {
     }
 
     VideoOutput {
+        id: videoOutput
         fillMode: VideoOutput.PreserveAspectCrop
         anchors.fill: parent
         source: camera
@@ -120,14 +134,22 @@ Rectangle {
     Image {
         id: photoPreview
         anchors.fill: parent
+        opacity: 0.5
 
         fillMode: Image.PreserveAspectCrop
+    }
+
+    MediaPlayer {
+        id: player
+        autoPlay: true
+
+        source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
     }
 
     ColumnLayout{
         id: layout
         anchors.verticalCenter: parent.verticalCenter
-        spacing: parent.height / 4
+        spacing: parent.height / 8
         Layout.fillHeight: true
 
         Button {
@@ -162,6 +184,23 @@ Rectangle {
                     rectangle.state = "";
                 }
             }
+        }
+
+        Button {
+            id: videoPreviewButton
+            text: qsTr("videoPreivw")
+            onClicked: {
+                if (rectangle.state != "videoPreview") {
+                    rectangle.state = "videoPreview"
+                    text = "Cancel"
+                }
+                else {
+                    player.stop()
+                    rectangle.state = ""
+                    text = qsTr("videoPreview");
+                }
+            }
+
         }
 
         Button {
