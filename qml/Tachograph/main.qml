@@ -1,5 +1,5 @@
 import QtQuick 2.2
-import QtMultimedia 5.0
+import QtMultimedia 5.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
@@ -127,6 +127,8 @@ Rectangle {
     VideoOutput {
         id: videoOutput
         fillMode: VideoOutput.PreserveAspectCrop
+        autoOrientation: true
+        orientation: 0
         anchors.fill: parent
         source: camera
     }
@@ -253,7 +255,8 @@ Rectangle {
         anchors.left: rectangle.left
         text: qsTr("rotate 90")
         onClicked: {
-            rectangle.rotation = rectangle.rotation + 90
+            //rectangle.rotation = rectangle.rotation + 90
+            videoOutput.orientation = videoOutput.orientation + 90
         }
     }
 }
