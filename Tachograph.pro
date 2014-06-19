@@ -3,7 +3,7 @@ folder_01.source = qml/Tachograph
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
-QT += quick qml multimedia
+QT += quick qml multimedia sensors
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -19,6 +19,9 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += qml/Tachograph/main.qml \
-               qml/Tachograph/Viewfinder.qml
+               qml/Tachograph/Viewfinder.qml \
+    android/AndroidManifest.xml
 
 RESOURCES +=
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

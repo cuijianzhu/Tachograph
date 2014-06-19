@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtMultimedia 5.2
+import QtSensors 5.0
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
@@ -146,6 +147,24 @@ Rectangle {
         autoPlay: true
 
         source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
+    }
+
+    OrientationSensor {
+        id: oritation
+        active: true
+
+        onReadingChanged: {
+            switch(reading.orientation) {
+            case OrientationReading.TopUp:
+            case OrientationReading.TopDown:
+            case OrientationReading.LeftUp:
+            case OrientationReading.RightUp:
+            case OrientationReading.FaceUp:
+            case OrientationReading.FaceDown:
+                console.log("orientation %d", reading.orientation)
+                break;
+            }
+        }
     }
 
     ColumnLayout{
