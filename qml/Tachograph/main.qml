@@ -122,6 +122,14 @@ Rectangle {
             mediaContainer: "mp4"
             resolution: "640x480"
             frameRate: 15
+            //onRecorderStateChanged: {
+            /* The application get
+                "F/libc    (17890): Fatal signal 11 (SIGSEGV) at 0x00000010 (code=1), thread 17989 (mple.Tachograph)"
+               with high posibility as long as we enable this slot no matter what we did within the slot.
+               It looks like a bug of QtMultimedia.
+             */
+            //    console.log("RecorderStateChanged")
+            //}
         }
     }
 
