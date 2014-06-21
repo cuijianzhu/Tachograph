@@ -36,6 +36,11 @@ Rectangle {
             PropertyChanges {
                 target: stillImageCaptureButton;
                 text: "Cancel"
+                iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Back.png"
+            }
+            PropertyChanges {
+                target: videoPreviewButton
+                visible: false
             }
             PropertyChanges {
                 target: location
@@ -61,10 +66,15 @@ Rectangle {
             PropertyChanges {
                 target: videoCaptureButton
                 text: "stop"
+                iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Player\ stop.png"
             }
             PropertyChanges {
                 target: stillImageCaptureButton
                 visible:false
+            }
+            PropertyChanges {
+                target: videoPreviewButton
+                visible: false
             }
             PropertyChanges {
                 target: location
@@ -152,7 +162,7 @@ Rectangle {
 
     MediaPlayer {
         id: player
-        autoPlay: true
+        autoPlay: false
 
         source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
     }
@@ -175,6 +185,10 @@ Rectangle {
         }
     }
 
+    Component.onCompleted: {
+        console.log("onComplete")
+    }
+
     ColumnLayout{
         id: layout
         anchors.verticalCenter: parent.verticalCenter
@@ -188,7 +202,7 @@ Rectangle {
             anchors.topMargin: 5
             anchors.leftMargin: 5
             text: qsTr("stillImage")
-            opacity: 0.5
+            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Photo.png"
             onClicked: {
                 if (text == qsTr("stillImage")) {
                     rectangle.state = "stillImageCapture"
@@ -203,6 +217,7 @@ Rectangle {
         Button {
             id: videoCaptureButton
             text: qsTr("videoCapture")
+            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Video.png"
             onClicked: {
                 if (text == "videoCapture") {
                     rectangle.state = "videoCapture"
@@ -232,12 +247,26 @@ Rectangle {
 
         }
 
+        /*
         Button {
             id: quitButton
 
             text: "Quit"
+            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Ok.png"
             onClicked: {
                 Qt.quit();
+            }
+        }
+        */
+
+        Image {
+            source: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Ok.png"
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit()
+                }
             }
         }
     }
