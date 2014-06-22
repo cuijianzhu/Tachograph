@@ -8,13 +8,13 @@ Item {
     signal statusChanged
 
     property alias source: image.source
-    property alias sourcewidth: image.sourceSize.width
-    property alias sourceheight: image.sourceSize.height
 
+    width: image.sourceSize.width
+    height: image.sourceSize.height
     Image {
         id: image
         anchors.fill: parent
-        fillMode: Image.Pad
+        fillMode: Image.PreserveAspectFit
 
         MouseArea{
             anchors.fill: parent

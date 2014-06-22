@@ -16,10 +16,6 @@ Rectangle {
                 target:photoPreview;
                 visible: false
             }
-            PropertyChanges {
-                target: stillImageCaptureButton;
-                text: "stillImage"
-            }
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureStillImage
@@ -35,8 +31,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: stillImageCaptureButton;
-                text: "Cancel"
-                iconSource: "qrc:/icons/png/32x32/Back.png"
+                source: "qrc:/icons/png/32x32/Back.png"
             }
             PropertyChanges {
                 target: videoPreviewButton
@@ -65,8 +60,7 @@ Rectangle {
             name: "videoCapture"
             PropertyChanges {
                 target: videoCaptureButton
-                text: "stop"
-                iconSource: "qrc:/icons/png/32x32/Player_Stop.png"
+                source: "qrc:/icons/png/32x32/Player_Stop.png"
             }
             PropertyChanges {
                 target: stillImageCaptureButton
@@ -189,57 +183,68 @@ Rectangle {
         console.log("onComplete")
     }
 
-    ColumnLayout{
-        id: layout
+    ColumnLayout {
+        id: leftlayout
         anchors.verticalCenter: parent.verticalCenter
         spacing: parent.height / 8
         Layout.fillHeight: true
 
-        Button {
+        IconButton {
             id: stillImageCaptureButton
-            anchors.topMargin: 5
-            anchors.leftMargin: 5
-            text: qsTr("stillImage")
-            iconSource: "qrc:/icons/png/32x32/Photo.png"
-            onClicked: {
-                if (text == qsTr("stillImage")) {
-                    rectangle.state = "stillImageCapture"
-                    camera.imageCapture.capture();
-                }
-                else {
-                    rectangle.state = ""
-                }
-           }
-        }
 
-        Button {
-            id: videoCaptureButton
-            text: qsTr("videoCapture")
-            iconSource: "qrc:/icons/png/32x32/Video.png"
+            source: "qrc:/icons/png/32x32/Photo.png"
             onClicked: {
-                if (text == "videoCapture") {
-                    rectangle.state = "videoCapture"
-                    camera.videoRecorder.record();
-                } else if(text == "stop") {
-                    camera.videoRecorder.stop();
-                    camera.stop();
-                    rectangle.state = "";
+                if (rectangle.state != "stillImageCapture") {
+                    console.log("stillImageCaptureButton on click",
+                                rectangle.state)
+                    rectangle.state = "stillImageCapture"
+                    camera.imageCapture.capture()
+                    console.log("stillImageCaptureButton on click",
+                                rectangle.state.name)
+                } else {
+                    console.log("stillImageCaptureButton on click",
+                                rectangle.state.name)
+                    rectangle.state = ""
                 }
             }
         }
 
-        Button {
+        IconButton {
+            id: videoCaptureButton
+            source: "qrc:/icons/png/32x32/Player_Record.png"
+            onClicked: {
+                if (rectangle.state != "videoCapture") {
+                    rectangle.state = "videoCapture"
+                    camera.videoRecorder.record()
+                } else {
+                    camera.videoRecorder.stop()
+                    camera.stop()
+                    rectangle.state = ""
+                }
+            }
+        }
+    }
+
+    ColumnLayout {
+        id: rightlayout
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        spacing: parent.height / 8
+        Layout.fillHeight: ture
+
+        IconButton {
             id: videoPreviewButton
-            text: qsTr("videoPreivw")
+            source: "qrc:/icons/png/32x32/Video.png"
+
             onClicked: {
                 if (rectangle.state != "videoPreview") {
                     rectangle.state = "videoPreview"
-                    text = "Cancel"
+                    videoPreviewButton.source = "qrc:/icons/png/32x32/Player_Stop.png"
                 }
                 else {
                     player.stop()
                     rectangle.state = ""
-                    text = qsTr("videoPreview");
                 }
             }
 
@@ -247,8 +252,6 @@ Rectangle {
 
         IconButton {
             id: quitButton
-            width: sourcewidth
-            height: sourceheight
             source: "qrc:/icons/png/32x32/Ok.png"
 
             onClicked: {
