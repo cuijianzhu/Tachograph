@@ -21,8 +21,8 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += qml/Tachograph/main.qml \
-               qml/Tachograph/Viewfinder.qml \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    qml/Tachograph/IconButton.qml
 
 RESOURCES +=
 

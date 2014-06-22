@@ -197,8 +197,6 @@ Rectangle {
 
         Button {
             id: stillImageCaptureButton
-            width: 60
-            height: 30
             anchors.topMargin: 5
             anchors.leftMargin: 5
             text: qsTr("stillImage")
@@ -247,26 +245,14 @@ Rectangle {
 
         }
 
-        /*
-        Button {
+        IconButton {
             id: quitButton
-
-            text: "Quit"
-            iconSource: "qrc:/icons/png/32x32/Ok.png"
-            onClicked: {
-                Qt.quit();
-            }
-        }
-        */
-
-        Image {
+            width: sourcewidth
+            height: sourceheight
             source: "qrc:/icons/png/32x32/Ok.png"
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    Qt.quit()
-                }
+            onClicked: {
+                Qt.quit()
             }
         }
     }
