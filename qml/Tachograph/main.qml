@@ -36,7 +36,7 @@ Rectangle {
             PropertyChanges {
                 target: stillImageCaptureButton;
                 text: "Cancel"
-                iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Back.png"
+                iconSource: "qrc:/icons/png/32x32/Back.png"
             }
             PropertyChanges {
                 target: videoPreviewButton
@@ -66,7 +66,7 @@ Rectangle {
             PropertyChanges {
                 target: videoCaptureButton
                 text: "stop"
-                iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Player\ stop.png"
+                iconSource: "qrc:/icons/png/32x32/Player_Stop.png"
             }
             PropertyChanges {
                 target: stillImageCaptureButton
@@ -202,7 +202,7 @@ Rectangle {
             anchors.topMargin: 5
             anchors.leftMargin: 5
             text: qsTr("stillImage")
-            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Photo.png"
+            iconSource: "qrc:/icons/png/32x32/Photo.png"
             onClicked: {
                 if (text == qsTr("stillImage")) {
                     rectangle.state = "stillImageCapture"
@@ -217,7 +217,7 @@ Rectangle {
         Button {
             id: videoCaptureButton
             text: qsTr("videoCapture")
-            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Video.png"
+            iconSource: "qrc:/icons/png/32x32/Video.png"
             onClicked: {
                 if (text == "videoCapture") {
                     rectangle.state = "videoCapture"
@@ -252,7 +252,7 @@ Rectangle {
             id: quitButton
 
             text: "Quit"
-            iconSource: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Ok.png"
+            iconSource: "qrc:/icons/png/32x32/Ok.png"
             onClicked: {
                 Qt.quit();
             }
@@ -260,7 +260,7 @@ Rectangle {
         */
 
         Image {
-            source: "file:///Users/tonypupp/tmp/Tachograph/icons/png/32x32/Ok.png"
+            source: "qrc:/icons/png/32x32/Ok.png"
 
             MouseArea {
                 anchors.fill: parent
