@@ -1,4 +1,5 @@
 import QtQuick 2.2
+import QtSensors 5.0
 
 Item {
 
@@ -22,5 +23,34 @@ Item {
                 iconbutton.clicked()
             }
         }
+    }
+
+    Behavior on rotation {
+        RotationAnimation {
+            duration: 500
+            direction: RotationAnimation.Shortest
+        }
+    }
+
+    function doRotate(oritation) {
+        console.log("doRotate!!!!" + oritation)
+        switch(oritation) {
+        case OrientationReading.TopUp:
+            iconbutton.rotation = 0
+            break;
+        case OrientationReading.TopDown:
+            iconbutton.rotation = 180
+            break;
+        case OrientationReading.LeftUp:
+            iconbutton.rotation = -90
+            break;
+        case OrientationReading.RightUp:
+            iconbutton.rotation = 90
+            break;
+        case OrientationReading.FaceUp:
+        case OrientationReading.FaceDown:
+            break;
+        }
+        console.log("rotation =" + iconbutton.rotation)
     }
 }

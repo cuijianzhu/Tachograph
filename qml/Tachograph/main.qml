@@ -164,19 +164,29 @@ Rectangle {
         active: true
 
         onReadingChanged: {
+            quitButton.doRotate(reading.oritation)
+            /*
             switch(reading.orientation) {
             case OrientationReading.TopUp:
+                quitButton.rotation = 0
+                break;
             case OrientationReading.TopDown:
-                quitButton.rotation = 90
+                quitButton.rotation = 180
                 break;
             case OrientationReading.LeftUp:
+                quitButton.rotation = -90
+                break;
             case OrientationReading.RightUp:
+                quitButton.rotation = 90
+                break;
             case OrientationReading.FaceUp:
             case OrientationReading.FaceDown:
                 console.log("orientation %d", reading.orientation)
                 break;
             }
+            */
         }
+
     }
 
     Component.onCompleted: {
