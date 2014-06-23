@@ -7,5 +7,11 @@
         <file>icons/png/32x32/Player_Stop.png</file>
         <file>icons/png/32x32/Player_Record.png</file>
         <file>icons/png/32x32/Photo.png</file>
+        <file>icons/png/48x48/Video.png</file>
+        <file>icons/png/48x48/Ok.png</file>
+        <file>icons/png/48x48/Back.png</file>
+        <file>icons/png/48x48/Player_Stop.png</file>
+        <file>icons/png/48x48/Player_Record.png</file>
+        <file>icons/png/48x48/Photo.png</file>
     </qresource>
 </RCC>

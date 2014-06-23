@@ -6,8 +6,6 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: rectangle
-    //width: 640
-    //height: 640
 
     states: [
         State {
@@ -31,7 +29,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: stillImageCaptureButton;
-                source: "qrc:/icons/png/32x32/Back.png"
+                source: "qrc:/icons/png/48x48/Back.png"
             }
             PropertyChanges {
                 target: videoPreviewButton
@@ -60,7 +58,7 @@ Rectangle {
             name: "videoCapture"
             PropertyChanges {
                 target: videoCaptureButton
-                source: "qrc:/icons/png/32x32/Player_Stop.png"
+                source: "qrc:/icons/png/48x48/Player_Stop.png"
             }
             PropertyChanges {
                 target: stillImageCaptureButton
@@ -169,6 +167,8 @@ Rectangle {
             switch(reading.orientation) {
             case OrientationReading.TopUp:
             case OrientationReading.TopDown:
+                quitButton.rotation = 90
+                break;
             case OrientationReading.LeftUp:
             case OrientationReading.RightUp:
             case OrientationReading.FaceUp:
@@ -192,18 +192,12 @@ Rectangle {
         IconButton {
             id: stillImageCaptureButton
 
-            source: "qrc:/icons/png/32x32/Photo.png"
+            source: "qrc:/icons/png/48x48/Photo.png"
             onClicked: {
                 if (rectangle.state != "stillImageCapture") {
-                    console.log("stillImageCaptureButton on click",
-                                rectangle.state)
                     rectangle.state = "stillImageCapture"
                     camera.imageCapture.capture()
-                    console.log("stillImageCaptureButton on click",
-                                rectangle.state.name)
                 } else {
-                    console.log("stillImageCaptureButton on click",
-                                rectangle.state.name)
                     rectangle.state = ""
                 }
             }
@@ -211,7 +205,7 @@ Rectangle {
 
         IconButton {
             id: videoCaptureButton
-            source: "qrc:/icons/png/32x32/Player_Record.png"
+            source: "qrc:/icons/png/48x48/Player_Record.png"
             onClicked: {
                 if (rectangle.state != "videoCapture") {
                     rectangle.state = "videoCapture"
@@ -231,16 +225,16 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         spacing: parent.height / 8
-        Layout.fillHeight: ture
+        Layout.fillHeight: true
 
         IconButton {
             id: videoPreviewButton
-            source: "qrc:/icons/png/32x32/Video.png"
+            source: "qrc:/icons/png/48x48/Video.png"
 
             onClicked: {
                 if (rectangle.state != "videoPreview") {
                     rectangle.state = "videoPreview"
-                    videoPreviewButton.source = "qrc:/icons/png/32x32/Player_Stop.png"
+                    videoPreviewButton.source = "qrc:/icons/png/48x48/Player_Stop.png"
                 }
                 else {
                     player.stop()
@@ -252,7 +246,7 @@ Rectangle {
 
         IconButton {
             id: quitButton
-            source: "qrc:/icons/png/32x32/Ok.png"
+            source: "qrc:/icons/png/48x48/Ok.png"
 
             onClicked: {
                 Qt.quit()
