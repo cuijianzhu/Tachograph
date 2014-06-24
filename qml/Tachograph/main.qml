@@ -200,6 +200,7 @@ Rectangle {
         IconButton {
             id: stillImageCaptureButton
 
+            rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Photo.png"
             onClicked: {
                 if (rectangle.state != "stillImageCapture") {
@@ -213,6 +214,8 @@ Rectangle {
 
         IconButton {
             id: videoCaptureButton
+
+            rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Player_Record.png"
             onClicked: {
                 if (rectangle.state != "videoCapture") {
@@ -237,6 +240,8 @@ Rectangle {
 
         IconButton {
             id: videoPreviewButton
+
+            rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Video.png"
 
             onClicked: {
@@ -249,13 +254,13 @@ Rectangle {
                     rectangle.state = ""
                 }
             }
-
         }
 
         IconButton {
             id: quitButton
-            source: "qrc:/icons/png/48x48/Ok.png"
+
             rotation: rectangle.sensor_orientation
+            source: "qrc:/icons/png/48x48/Ok.png"
 
             onClicked: {
                 Qt.quit()
@@ -288,13 +293,6 @@ Rectangle {
         font.pixelSize: 12
         color: "red"
         visible: false
-    }
-
-    Behavior on rotation {
-        NumberAnimation {
-            duration: 600
-            easing.type: Easing.OutCurve
-        }
     }
 
     Button {
