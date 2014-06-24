@@ -191,11 +191,14 @@ Rectangle {
         console.log("onComplete")
     }
 
-    ColumnLayout {
-        id: leftlayout
-        anchors.verticalCenter: parent.verticalCenter
-        spacing: parent.height / 8
-        Layout.fillHeight: true
+    RowLayout {
+        id: uplayout
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: parent.height / 16
+        spacing: parent.width / 4
+        Layout.fillWidth: true
 
         IconButton {
             id: stillImageCaptureButton
@@ -230,13 +233,14 @@ Rectangle {
         }
     }
 
-    ColumnLayout {
-        id: rightlayout
+    RowLayout {
+        id: downlayout
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        spacing: parent.height / 8
-        Layout.fillHeight: true
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height / 16
+        spacing: parent.width / 4
+        Layout.fillWidth: true
 
         IconButton {
             id: videoPreviewButton
