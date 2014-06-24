@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: rectangle
+    property real sensor_orientation
 
     states: [
         State {
@@ -160,31 +161,28 @@ Rectangle {
     }
 
     OrientationSensor {
-        id: oritation
+        id: orientation
         active: true
 
         onReadingChanged: {
-            quitButton.doRotate(reading.oritation)
-            /*
             switch(reading.orientation) {
             case OrientationReading.TopUp:
-                quitButton.rotation = 0
+                rectangle.sensor_orientation = 0
                 break;
             case OrientationReading.TopDown:
-                quitButton.rotation = 180
+                rectangle.sensor_orientation = 180
                 break;
             case OrientationReading.LeftUp:
-                quitButton.rotation = -90
+                rectangle.sensor_orientation = -90
                 break;
             case OrientationReading.RightUp:
-                quitButton.rotation = 90
+                rectangle.sensor_orientation = 90
                 break;
             case OrientationReading.FaceUp:
             case OrientationReading.FaceDown:
                 console.log("orientation %d", reading.orientation)
                 break;
             }
-            */
         }
 
     }
@@ -257,6 +255,7 @@ Rectangle {
         IconButton {
             id: quitButton
             source: "qrc:/icons/png/48x48/Ok.png"
+            rotation: rectangle.sensor_orientation
 
             onClicked: {
                 Qt.quit()
