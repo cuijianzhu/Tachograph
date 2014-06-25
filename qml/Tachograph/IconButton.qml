@@ -10,8 +10,8 @@ Item {
 
     property alias source: image.source
 
-    width: image.sourceSize.width
-    height: image.sourceSize.height
+    implicitWidth: image.sourceSize.width
+    implicitHeight: image.sourceSize.height
     Image {
         id: image
         anchors.fill: parent

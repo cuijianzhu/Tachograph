@@ -197,12 +197,15 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: parent.height / 16
-        spacing: parent.width / 4
+        spacing: parent.width / 2
         Layout.fillWidth: true
+        layoutDirection: Qt.RightToLeft
 
         IconButton {
             id: stillImageCaptureButton
 
+            Layout.preferredWidth: rectangle.width / 5
+            Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Photo.png"
             onClicked: {
@@ -218,6 +221,8 @@ Rectangle {
         IconButton {
             id: videoCaptureButton
 
+            Layout.preferredWidth: rectangle.width / 5
+            Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Player_Record.png"
             onClicked: {
@@ -239,12 +244,15 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.height / 16
-        spacing: parent.width / 4
+        spacing: parent.width / 2
         Layout.fillWidth: true
+        layoutDirection: Qt.RightToLeft
 
         IconButton {
             id: videoPreviewButton
 
+            Layout.preferredWidth: rectangle.width / 5
+            Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Video.png"
 
@@ -263,6 +271,8 @@ Rectangle {
         IconButton {
             id: quitButton
 
+            Layout.preferredWidth: rectangle.width / 5
+            Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Ok.png"
 
