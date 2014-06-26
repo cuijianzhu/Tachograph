@@ -83,6 +83,11 @@ Rectangle {
                 target: animateInformation
                 running: true
             }
+            PropertyChanges {
+                target: clock
+                running: true
+                visible: true
+            }
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureVideo;
@@ -160,6 +165,10 @@ Rectangle {
         source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
     }
 
+    TimeSlogan {
+        id: clock
+    }
+
     OrientationSensor {
         id: orientation
         active: true
@@ -180,11 +189,11 @@ Rectangle {
                 break;
             case OrientationReading.FaceUp:
             case OrientationReading.FaceDown:
-                console.log("orientation %d", reading.orientation)
+                console.log("orientation = ", reading.orientation)
                 break;
             }
+            clock.calAnchor(sensor_orientation)
         }
-
     }
 
     Component.onCompleted: {
@@ -274,7 +283,7 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            source: "qrc:/icons/png/48x48/Ok.png"
+            source: "qrc:/icons/png/48x48/Gear.png"
 
             onClicked: {
                 Qt.quit()

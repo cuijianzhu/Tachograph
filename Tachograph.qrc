@@ -13,5 +13,6 @@
         <file>icons/png/48x48/Player_Stop.png</file>
         <file>icons/png/48x48/Player_Record.png</file>
         <file>icons/png/48x48/Photo.png</file>
+        <file>icons/png/48x48/Gear.png</file>
     </qresource>
 </RCC>
