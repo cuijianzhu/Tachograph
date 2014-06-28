@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/Tachograph/main.qml</file>
+        <file>qml/Tachograph/IconButton.qml</file>
+        <file>qml/Tachograph/TvideoRecorder.qml</file>
         <file>icons/png/32x32/Video.png</file>
         <file>icons/png/32x32/Ok.png</file>
         <file>icons/png/32x32/Back.png</file>

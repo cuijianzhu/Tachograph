@@ -88,12 +88,14 @@ Rectangle {
                 running: true
                 visible: true
             }
+            /*
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureVideo;
                     camera.start();
                 }
             }
+            */
         },
         State {
             name: "videoPreview"
@@ -192,7 +194,7 @@ Rectangle {
                 console.log("orientation = ", reading.orientation)
                 break;
             }
-            clock.calAnchor(sensor_orientation)
+            //clock.calAnchor(sensor_orientation)
         }
     }
 
@@ -234,13 +236,26 @@ Rectangle {
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Player_Record.png"
+
+            TvideoRecorder {
+                id: tvideorecorder
+                camera: camera
+                period: 5000
+                fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+
+            }
+
             onClicked: {
                 if (rectangle.state != "videoCapture") {
                     rectangle.state = "videoCapture"
-                    camera.videoRecorder.record()
+                    //camera.videoRecorder.record()
+                    tvideorecorder.start()
                 } else {
+                    /*
                     camera.videoRecorder.stop()
                     camera.stop()
+                    */
+                    tvideorecorder.stop()
                     rectangle.state = ""
                 }
             }
@@ -327,5 +342,9 @@ Rectangle {
             //rectangle.rotation = rectangle.rotation + 90
             videoOutput.orientation = videoOutput.orientation + 90
         }
+    }
+
+    onSensor_orientationChanged: {
+        clock.calAnchor(sensor_orientation)
     }
 }
