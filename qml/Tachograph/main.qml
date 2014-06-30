@@ -88,14 +88,12 @@ Rectangle {
                 running: true
                 visible: true
             }
-            /*
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureVideo;
                     camera.start();
                 }
             }
-            */
         },
         State {
             name: "videoPreview"
@@ -160,12 +158,14 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
+    /*
     MediaPlayer {
         id: player
         autoPlay: false
 
         source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
     }
+    */
 
     TimeSlogan {
         id: clock
@@ -194,7 +194,6 @@ Rectangle {
                 console.log("orientation = ", reading.orientation)
                 break;
             }
-            //clock.calAnchor(sensor_orientation)
         }
     }
 
@@ -241,7 +240,8 @@ Rectangle {
                 id: tvideorecorder
                 camera: camera
                 period: 5000
-                fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+                //fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+                fileLocation: qsTr("file:///storage/emulated/0/DCIM/Tachogrph.mp4")
 
             }
 
@@ -279,7 +279,7 @@ Rectangle {
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
             source: "qrc:/icons/png/48x48/Video.png"
-
+            /*
             onClicked: {
                 if (rectangle.state != "videoPreview") {
                     rectangle.state = "videoPreview"
@@ -290,6 +290,7 @@ Rectangle {
                     rectangle.state = ""
                 }
             }
+            */
         }
 
         IconButton {
@@ -328,7 +329,7 @@ Rectangle {
         id: location
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        font.pixelSize: 12
+        font.pixelSize: 20
         color: "red"
         visible: false
     }
