@@ -11,10 +11,6 @@ Rectangle {
     states: [
         State {
             name: ""
-            PropertyChanges {
-                target:photoPreview;
-                visible: false
-            }
             StateChangeScript {
                 script: {
                     camera.captureMode = Camera.CaptureStillImage
@@ -25,26 +21,8 @@ Rectangle {
         State {
             name: "stillImageCapture"
             PropertyChanges {
-                target: photoPreview;
-                visible: true
-            }
-            PropertyChanges {
-                target: stillImageCaptureButton;
-                source: "qrc:/icons/png/48x48/Back.png"
-            }
-            PropertyChanges {
-                target: videoPreviewButton
-                visible: false
-            }
-            PropertyChanges {
                 target: location
-                color: "red"
                 text: camera.imageCapture.capturedImagePath
-                visible: true
-            }
-            PropertyChanges {
-                target: videoCaptureButton
-                visible: false
             }
             PropertyChanges {
                 target: information
@@ -58,22 +36,8 @@ Rectangle {
         State {
             name: "videoCapture"
             PropertyChanges {
-                target: videoCaptureButton
-                source: "qrc:/icons/png/48x48/Player_Stop.png"
-            }
-            PropertyChanges {
-                target: stillImageCaptureButton
-                visible:false
-            }
-            PropertyChanges {
-                target: videoPreviewButton
-                visible: false
-            }
-            PropertyChanges {
                 target: location
-                color: "red"
                 text: camera.videoRecorder.actualLocation
-                visible: true
             }
             PropertyChanges {
                 target: information
@@ -153,6 +117,7 @@ Rectangle {
     Image {
         id: photoPreview
         anchors.fill: parent
+        visible: rectangle.state == "stillImageCapture"
         opacity: 0.5
 
         fillMode: Image.PreserveAspectCrop
@@ -217,7 +182,9 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            source: "qrc:/icons/png/48x48/Photo.png"
+            visible: rectangle.state != "videoCapture"
+            source: rectangle.state == "stillImageCapture" ?
+                      "qrc:/icons/png/48x48/Back.png": "qrc:/icons/png/48x48/Photo.png"
             onClicked: {
                 if (rectangle.state != "stillImageCapture") {
                     rectangle.state = "stillImageCapture"
@@ -234,7 +201,9 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            source: "qrc:/icons/png/48x48/Player_Record.png"
+            visible: rectangle.state != "stillImageCapture"
+            source: rectangle.state == "videoCapture" ?
+                        "qrc:/icons/png/48x48/Player_Stop.png" : "qrc:/icons/png/48x48/Player_Record.png"
 
             TvideoRecorder {
                 id: tvideorecorder
@@ -248,13 +217,8 @@ Rectangle {
             onClicked: {
                 if (rectangle.state != "videoCapture") {
                     rectangle.state = "videoCapture"
-                    //camera.videoRecorder.record()
                     tvideorecorder.start()
                 } else {
-                    /*
-                    camera.videoRecorder.stop()
-                    camera.stop()
-                    */
                     tvideorecorder.stop()
                     rectangle.state = ""
                 }
@@ -278,6 +242,7 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
+            visible: rectangle.state == ""
             source: "qrc:/icons/png/48x48/Video.png"
             /*
             onClicked: {
@@ -329,9 +294,10 @@ Rectangle {
         id: location
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        visible: rectangle.state == "stillImageCapture" ||
+                 rectangle.state == "videoCapture"
         font.pixelSize: 20
         color: "red"
-        visible: false
     }
 
     Button {
@@ -340,7 +306,6 @@ Rectangle {
         anchors.left: rectangle.left
         text: qsTr("rotate 90")
         onClicked: {
-            //rectangle.rotation = rectangle.rotation + 90
             videoOutput.orientation = videoOutput.orientation + 90
         }
     }
