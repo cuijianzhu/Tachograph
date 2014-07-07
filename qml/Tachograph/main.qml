@@ -3,6 +3,7 @@ import QtMultimedia 5.2
 import QtSensors 5.0
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.1
 
 Rectangle {
     id: rectangle
@@ -61,15 +62,6 @@ Rectangle {
         },
         State {
             name: "videoPreview"
-            StateChangeScript {
-                script: {
-                   player.play();
-                }
-            }
-            PropertyChanges {
-                target: videoOutput
-                source: player
-            }
         }
 
     ]
@@ -91,7 +83,7 @@ Rectangle {
         }
 
         videoRecorder {
-            mediaContainer: "mp4"
+            //mediaContainer: "mp4"
             resolution: "640x480"
             frameRate: 15
             //onRecorderStateChanged: {
@@ -111,7 +103,20 @@ Rectangle {
         autoOrientation: true
         orientation: 0
         anchors.fill: parent
+        visible: rectangle.state != "videoPreview"
         source: camera
+    }
+
+    Video {
+        id: video
+        anchors.fill: parent
+        fillMode: VideoOutput.PreserveAspectCrop
+        autoLoad: true
+        visible: rectangle.state == "videoPreview"
+
+        onStopped: {
+            rectangle.state = ""
+        }
     }
 
     Image {
@@ -122,15 +127,6 @@ Rectangle {
 
         fillMode: Image.PreserveAspectCrop
     }
-
-    /*
-    MediaPlayer {
-        id: player
-        autoPlay: false
-
-        source: "file:///Users/tonypupp/Movies/clip_0002.mp4"
-    }
-    */
 
     TimeSlogan {
         id: clock
@@ -162,6 +158,21 @@ Rectangle {
         }
     }
 
+    FileDialog {
+        id: filedialog
+        title: "Select file"
+        selectMultiple: false
+        selectExisting: true
+        folder: "file:///storage/emulated/0/"
+
+        onAccepted: {
+            console.log("onAccept" + filedialog.fileUrl)
+            video.source = filedialog.fileUrl
+            video.play()
+        }
+    }
+
+
     Component.onCompleted: {
         console.log("onComplete")
     }
@@ -182,7 +193,7 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            visible: rectangle.state != "videoCapture"
+            visible: rectangle.state == "" || rectangle.state == "stillImageCapture"
             source: rectangle.state == "stillImageCapture" ?
                       "qrc:/icons/png/48x48/Back.png": "qrc:/icons/png/48x48/Photo.png"
             onClicked: {
@@ -201,7 +212,7 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            visible: rectangle.state != "stillImageCapture"
+            visible: rectangle.state == "" || rectangle.state == "videoCapture"
             source: rectangle.state == "videoCapture" ?
                         "qrc:/icons/png/48x48/Player_Stop.png" : "qrc:/icons/png/48x48/Player_Record.png"
 
@@ -210,7 +221,7 @@ Rectangle {
                 camera: camera
                 period: 5000
                 //fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
-                fileLocation: qsTr("file:///storage/emulated/0/DCIM/Tachogrph.mp4")
+                fileLocation: qsTr("file:///storage/emulated/0/Tachograph.mp4")
 
             }
 
@@ -242,20 +253,34 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
-            visible: rectangle.state == ""
-            source: "qrc:/icons/png/48x48/Video.png"
-            /*
+            visible: rectangle.state == "" || rectangle.state == "videoPreview"
+            source: rectangle.state == "videoPreview" ?
+                        "qrc:icons/png/48x48/Player_Stop.png" : "qrc:/icons/png/48x48/Video.png"
+
             onClicked: {
                 if (rectangle.state != "videoPreview") {
+
                     rectangle.state = "videoPreview"
-                    videoPreviewButton.source = "qrc:/icons/png/48x48/Player_Stop.png"
+                    if (camera.videoRecorder.actualLocation == "") {
+                        filedialog.open()
+                    }
+                    else {
+                        video.source = camera.videoRecorder.actualLocation
+                        video.play()
+                    }
+                    video.focus = true
+
+                    console.log("source = " + video.source)
+                    console.log("availablity = " + video.availability)
+                    console.log("status = " + video.status)
+                    console.log("bufferProgress = " + video.bufferProgress)
                 }
                 else {
-                    player.stop()
+                    video.stop()
+                    console.log("exit videoPreview")
                     rectangle.state = ""
                 }
             }
-            */
         }
 
         IconButton {
@@ -264,6 +289,7 @@ Rectangle {
             Layout.preferredWidth: rectangle.width / 5
             Layout.preferredHeight: rectangle.height / 5
             rotation: rectangle.sensor_orientation
+            visible: rectangle.state == ""
             source: "qrc:/icons/png/48x48/Gear.png"
 
             onClicked: {

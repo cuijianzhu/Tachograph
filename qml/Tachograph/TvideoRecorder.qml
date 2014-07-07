@@ -18,6 +18,7 @@ Item {
 
     function stop() {
         camera.videoRecorder.stop()
+        timer.running = false
     }
 
     Timer {
