@@ -11,8 +11,6 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
 
-RESOURCES += Tachograph.qrc
-
 # Installation path
 # target.path =
 
@@ -24,6 +22,8 @@ OTHER_FILES += qml/Tachograph/main.qml \
     android/AndroidManifest.xml \
     qml/Tachograph/IconButton.qml
 
-RESOURCES +=
+RESOURCES += Tachograph.qrc
+
+CONFIG += qml_debug
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

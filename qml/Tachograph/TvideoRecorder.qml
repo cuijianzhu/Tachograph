@@ -4,6 +4,8 @@ import QtMultimedia 5.2
 Item {
     id: tvideorecorder
 
+    signal timeouted
+
     property Camera camera
     property int period
     property string fileLocation
@@ -30,6 +32,7 @@ Item {
 
         onTriggered: {
             console.log("onTriggerd get call")
+            tvideorecorder.timeouted()
         }
 
     }

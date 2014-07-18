@@ -4,10 +4,12 @@ import QtSensors 5.0
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
+import QtQuick.Window 2.1
 
 Rectangle {
     id: rectangle
     property real sensor_orientation
+    //property screen_orientation: Screen.orientation
 
     states: [
         State {
@@ -86,14 +88,6 @@ Rectangle {
             //mediaContainer: "mp4"
             resolution: "640x480"
             frameRate: 15
-            //onRecorderStateChanged: {
-            /* The application get
-                "F/libc    (17890): Fatal signal 11 (SIGSEGV) at 0x00000010 (code=1), thread 17989 (mple.Tachograph)"
-               with high posibility as long as we enable this slot no matter what we did within the slot.
-               It looks like a bug of QtMultimedia.
-             */
-            //    console.log("RecorderStateChanged")
-            //}
         }
     }
 
@@ -130,6 +124,69 @@ Rectangle {
 
     TimeSlogan {
         id: clock
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 2
+        height: parent.height / 8
+        visible: false
+        running: false
+
+        font.bold: true
+        font.pixelSize: 24
+
+        function calAnchor(rotate) {
+            switch(rotate) {
+            case 0:
+                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
+                height = parent.height / 8
+                anchors.left = undefined
+                anchors.right = undefined
+                anchors.bottom = undefined
+                anchors.verticalCenter = undefined
+
+                anchors.horizontalCenter = parent.horizontalCenter
+                anchors.top = parent.top
+                rotation = 0
+                break;
+            case 90:
+                console.log("calAnchor rotate: " + rotate + " screen rotation: " + Screen.orientation)
+                height = parent.width / 8
+                anchors.horizontalCenter = undefined
+                anchors.left =undefined
+                anchors.top = undefined
+                anchors.bottom = undefined
+
+                anchors.right = parent.right
+                anchors.verticalCenter = parent.verticalCenter
+                rotation = 90
+                break;
+            case -90:
+                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
+                rotation = -90
+                height = parent.width / 8
+                anchors.horizontalCenter = undefined
+                anchors.right = undefined
+                anchors.top = undefined
+                anchors.bottom = undefined
+
+                anchors.left = parent.left
+                anchors.verticalCenter = parent.verticalCenter
+
+                break;
+            case 180:
+                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
+                height = parent.height / 8
+                anchors.top = undefined
+                anchors.left = undefined
+                anchors.right = undefined
+                anchors.verticalCenter = undefined
+
+                anchors.horizontalCenter = parent.horizontalCenter
+                anchors.bottom = parent.bottom
+                rotation = 180
+                break
+            }
+        }
     }
 
     OrientationSensor {
@@ -174,7 +231,7 @@ Rectangle {
 
 
     Component.onCompleted: {
-        console.log("onComplete")
+        console.log("This is " + Qt.platform.os)
     }
 
     RowLayout {
@@ -219,10 +276,34 @@ Rectangle {
             TvideoRecorder {
                 id: tvideorecorder
                 camera: camera
-                period: 5000
-                //fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
-                fileLocation: qsTr("file:///storage/emulated/0/Tachograph.mp4")
+                period: 3000
 
+                onTimeouted: {
+                    tvideorecorder.stop()
+                    if (Qt.platform.os == qsTr("android")) {
+                        if (fileLocation == qsTr("file:///storage/emulated/0/Tachograph.mp4"))
+                            fileLocation = qsTr("file:///storage/emulated/0/Tachograph_1.mp4")
+                        else
+                            fileLocation = qsTr("file:///storage/emulated/0/Tachograph.mp4")
+                    }
+                    else {
+                        if (fileLocation == qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4"))
+                            fileLocation = qsTr("file:///Users/tonypupp/Movies/Tachgraph_1.mp4")
+                        else
+                            fileLocation = qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+                    }
+
+                    tvideorecorder.start()
+                }
+
+                Component.onCompleted: {
+                    if (Qt.platform.os == qsTr("android"))
+                        fileLocation: qsTr("file:///storage/emulated/0/Tachograph.mp4")
+                    else if (Qt.platform.os == qsTr("osx"))
+                        fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+                    else
+                        fileLocation: qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
+                }
             }
 
             onClicked: {
@@ -269,11 +350,6 @@ Rectangle {
                         video.play()
                     }
                     video.focus = true
-
-                    console.log("source = " + video.source)
-                    console.log("availablity = " + video.availability)
-                    console.log("status = " + video.status)
-                    console.log("bufferProgress = " + video.bufferProgress)
                 }
                 else {
                     video.stop()
