@@ -137,7 +137,7 @@ Rectangle {
         function calAnchor(rotate) {
             switch(rotate) {
             case 0:
-                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
+                //console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
                 height = parent.height / 8
                 anchors.left = undefined
                 anchors.right = undefined
@@ -149,7 +149,6 @@ Rectangle {
                 rotation = 0
                 break;
             case 90:
-                console.log("calAnchor rotate: " + rotate + " screen rotation: " + Screen.orientation)
                 height = parent.width / 8
                 anchors.horizontalCenter = undefined
                 anchors.left =undefined
@@ -161,7 +160,6 @@ Rectangle {
                 rotation = 90
                 break;
             case -90:
-                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
                 rotation = -90
                 height = parent.width / 8
                 anchors.horizontalCenter = undefined
@@ -174,7 +172,6 @@ Rectangle {
 
                 break;
             case 180:
-                console.log("calAnchor rotate: " + rotate + " screen rotation " + Screen.orientation)
                 height = parent.height / 8
                 anchors.top = undefined
                 anchors.left = undefined
@@ -209,7 +206,6 @@ Rectangle {
                 break;
             case OrientationReading.FaceUp:
             case OrientationReading.FaceDown:
-                console.log("orientation = ", reading.orientation)
                 break;
             }
         }
@@ -223,7 +219,7 @@ Rectangle {
         folder: "file:///storage/emulated/0/"
 
         onAccepted: {
-            console.log("onAccept" + filedialog.fileUrl)
+            //console.log("onAccept" + filedialog.fileUrl)
             video.source = filedialog.fileUrl
             video.play()
         }
@@ -282,13 +278,13 @@ Rectangle {
                     tvideorecorder.stop()
                     if (Qt.platform.os == qsTr("android")) {
                         if (fileLocation == qsTr("file:///storage/emulated/0/Tachograph.mp4"))
-                            fileLocation = qsTr("file:///storage/emulated/0/Tachograph_1.mp4")
+                            fileLocation = qsTr("file:///storage/emulated/0/Tachograph1.mp4")
                         else
                             fileLocation = qsTr("file:///storage/emulated/0/Tachograph.mp4")
                     }
                     else {
                         if (fileLocation == qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4"))
-                            fileLocation = qsTr("file:///Users/tonypupp/Movies/Tachgraph_1.mp4")
+                            fileLocation = qsTr("file:///Users/tonypupp/Movies/Tachgraph1.mp4")
                         else
                             fileLocation = qsTr("file:///Users/tonypupp/Movies/Tachgraph.mp4")
                     }
@@ -353,7 +349,6 @@ Rectangle {
                 }
                 else {
                     video.stop()
-                    console.log("exit videoPreview")
                     rectangle.state = ""
                 }
             }

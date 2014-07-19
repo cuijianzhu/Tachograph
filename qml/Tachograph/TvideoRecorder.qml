@@ -31,10 +31,7 @@ Item {
         repeat: true
 
         onTriggered: {
-            console.log("onTriggerd get call")
             tvideorecorder.timeouted()
         }
-
     }
-
 }
