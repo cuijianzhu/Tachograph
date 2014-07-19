@@ -24,6 +24,6 @@ OTHER_FILES += qml/Tachograph/main.qml \
 
 RESOURCES += Tachograph.qrc
 
-CONFIG += qml_debug
+CONFIG += qml_debug qtquickcompiler
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
